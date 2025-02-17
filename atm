@@ -1,0 +1,134 @@
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+const int ARRAY_SIZE = 10; //10 accounts
+double acct[ARRAY_SIZE]; 
+
+bool signIn(int& account) {
+    cout << "Account numbers start from 1 to " << ARRAY_SIZE << endl;
+    cout << "Enter account number: ";
+    cin >> account;
+
+    if (account < 1 || account > ARRAY_SIZE) {
+        cout << "Incorrect account number, try again." << endl;
+        return false;
+    }
+    cout << "You are signed in." << endl;
+    return true;
+}
+
+void displayBalance(int account) {
+    cout << "Current balance = $" << acct[account - 1] << endl;
+    if (acct[account - 1] < 100) {
+        cout << "Low Balance" << endl;
+    }
+}
+
+void deposit(int account) {
+    double amount;
+    cout << "You are depositing to account number " << account << endl;
+    cout << "Enter amount to deposit $";
+    cin >> amount;
+
+    if (amount > 0) {
+        acct[account - 1] += amount;
+        cout << "$" << amount << " has been deposited. " << '\n';
+        cout << "Your new balance is: $" << acct[account - 1] << endl;
+    } else {
+        cout << "Invalid amount, try again." << endl;
+    }
+}
+
+void withdraw(int account) {
+    double amountWithdrawn;
+    cout << "Enter amount to withdraw $";
+    cin >> amountWithdrawn;
+
+    if (amountWithdrawn > acct[account - 1]) {
+        cout << "Insufficient balance." << '\n';
+        cout << "Your current balance is $" << acct[account - 1] << endl;
+    } else {
+        acct[account - 1] -= amountWithdrawn;
+        cout << "Your new balance is $" << acct[account - 1] << endl;
+    }
+}
+
+void exitProgram() {
+    cout << "Goodbye!" << endl;
+}
+
+int menuFunction() {
+    cout << "\nATM Menu" << '\n';
+    cout << "1. Balance" << '\n';
+    cout << "2. Deposit" << '\n';
+    cout << "3. Withdraw" << '\n';
+    cout << "4. Exit" << '\n';
+
+    int opt;
+    cout << "Enter a number to make a selection: ";
+    cin >> opt;
+    return opt;
+}
+
+void executeSelection(int opt, int& account) {
+    switch (opt) {
+    case 1:
+        displayBalance(account);
+        break;
+    case 2:
+        deposit(account);  
+        break;
+    case 3:
+        withdraw(account);  
+        break;
+    case 4:
+        exitProgram();
+        break;
+    default:
+        cout << "Invalid selection, goodbye!" << endl;
+        break;
+    }
+}
+
+void runMenu() {
+    int account = 0; 
+
+    while (true) {
+        if (!signIn(account)) {
+            continue; //keep asking for valid sign-in
+        }
+
+        while (true) {
+            int opt = menuFunction();
+            executeSelection(opt, account); 
+
+            if (opt == 4) break; //exit
+
+            char contLoop;
+            cout << "Enter Y to make another selection or any other key to quit: ";
+            cin >> contLoop;
+
+            if (tolower(contLoop) != 'y') {
+                cout << "Goodbye!" << endl;
+                break;
+            }
+        }
+
+        break;
+    }
+}
+
+int main() {
+    for (int i = 0; i < ARRAY_SIZE; i++) { //initialize acct balance to 1000
+        acct[i] = 1000.0;
+    }
+
+    runMenu(); //start the menu loop after sign-in
+
+    return 0;
+}

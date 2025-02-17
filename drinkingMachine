@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cctype>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+int main()
+{
+    int n = 100;
+
+    cout << "Drink Selection" << '\n'
+        << "0 for Coffee" << '\n'
+        << "1 for Coffee with Cream" << '\n'
+        << "2 for Coffee with cream and sugar" << '\n'
+        << "3 for Tea" << '\n'
+        << "4 for Hot Chocolate" << '\n';
+
+    do
+    {
+        cout << "Input a number to select a drink: ";
+        cin >> n;
+
+        switch (n)
+        {
+        case 0: cout << "You selected 0 for Coffee." << '\n'; break;
+        case 1: cout << "You selected 1 for Coffee with cream." << '\n'; break;
+        case 2: cout << "You selected 2 for Coffee with cream and sugar." << '\n'; break;
+        case 3: cout << "You selected 3 for Tea." << '\n'; break;
+        case 4: cout << "You selected 4 for Hot Chocolate." << '\n'; break;
+        default: cout << "Invalid selection, please choose a number between 0 and 4." << '\n'; break;
+        }
+
+        cout << "Enter Y to make another selection or any other key to exit: ";
+        char contLoop;
+        cin >> contLoop;
+
+        if (tolower(contLoop) != 'y') break;
+
+    } while (true);
+
+    cout << "Goodbye!" << '\n';
+    return 0;
+}
